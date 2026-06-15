@@ -1,122 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { AppProvider, useApp } from './store/AppContext';
+import { PageWrapper } from './components/layout/PageWrapper';
+import { Sparkles, ClipboardList, MapPin } from 'lucide-react';
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppContent() {
+  const { user, activeTab } = useApp();
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="space-y-6">
+      {/* COMPOSANT DE BIENVENUE CLIENT */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm transition-colors">
+        <div className="flex items-center space-x-3 mb-2">
+          <div className="bg-amber-100 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 w-10 h-10 rounded-2xl flex items-center justify-center">
+            <Sparkles className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-xs text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Session Active</h2>
+            <p className="text-lg font-bold text-slate-900 dark:text-white">{user.name}</p>
+          </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+          {user.role === 'admin' 
+            ? 'Console de supervision connectée. Gestion logistique en cours sur la Côte Basque et le littoral landais.' 
+            : `Fiche de route opérationnelle chargée. Équipe de déploiement : ${user.team || 'Générale'}.`
+          }
+        </p>
+      </div>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {/* ZONE DE GRILLE / AFFICHAGE PRINCIPAL */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm min-h-[320px] flex flex-col justify-center items-center text-center transition-colors">
+        <div className="w-16 h-16 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl flex items-center justify-center mb-4 text-slate-400 dark:text-slate-500 shadow-inner">
+          <ClipboardList className="w-8 h-8" />
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1 capitalize">
+          Contenu : {activeTab}
+        </h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm mb-6">
+          La coque applicative et le commutateur dynamique d'éclairage sont opérationnels. Prêt pour l'implantation du module d'inspection.
+        </p>
+        <div className="flex items-center space-x-2 text-xs font-semibold bg-slate-900 dark:bg-slate-800 border border-slate-800 dark:border-slate-700 text-amber-500 px-4 py-2 rounded-full shadow-md">
+          <MapPin className="w-3.5 h-3.5" />
+          <span className="tracking-wide">Région Aquitaine</span>
         </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <AppProvider>
+      <PageWrapper>
+        <AppContent />
+      </PageWrapper>
+    </AppProvider>
+  );
+}
